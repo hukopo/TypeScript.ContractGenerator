@@ -6,17 +6,20 @@ using SkbKontur.TypeScript.ContractGenerator.CodeDom;
 using SkbKontur.TypeScript.ContractGenerator.Extensions;
 using SkbKontur.TypeScript.ContractGenerator.Tests.Types;
 using SkbKontur.TypeScript.ContractGenerator.TypeBuilders;
+using SkbKontur.TypeScript.ContractGenerator.Types;
+
+using TypeInfo = SkbKontur.TypeScript.ContractGenerator.Types.TypeInfo;
 
 namespace SkbKontur.TypeScript.ContractGenerator.Tests.CustomTypeGenerators
 {
     public class TestCustomTypeGenerator : ICustomTypeGenerator
     {
-        public string GetTypeLocation(Type type)
+        public string GetTypeLocation(ITypeInfo type)
         {
             return "";
         }
 
-        public ITypeBuildingContext ResolveType(string initialUnitPath, Type type, ITypeScriptUnitFactory unitFactory)
+        public ITypeBuildingContext ResolveType(string initialUnitPath, ITypeInfo type, ITypeScriptUnitFactory unitFactory)
         {
             if (type == typeof(MethodRootType))
                 return new MethodTypeBuildingContext(unitFactory.GetOrCreateTypeUnit(initialUnitPath), type);
@@ -24,7 +27,7 @@ namespace SkbKontur.TypeScript.ContractGenerator.Tests.CustomTypeGenerators
             if (CollectionTypeBuildingContext.Accept(type))
                 return new CollectionTypeBuildingContext(type);
 
-            if (type == typeof(TimeSpan))
+            if(type.Equals(TypeInfo.FromType<TimeSpan>()))
                 return new StringBuildingContext();
 
             if (type.IsAbstract)
@@ -33,7 +36,7 @@ namespace SkbKontur.TypeScript.ContractGenerator.Tests.CustomTypeGenerators
             return null;
         }
 
-        public TypeScriptTypeMemberDeclaration ResolveProperty(TypeScriptUnit unit, ITypeGenerator typeGenerator, Type type, PropertyInfo property)
+        public TypeScriptTypeMemberDeclaration ResolveProperty(TypeScriptUnit unit, ITypeGenerator typeGenerator, ITypeInfo type, IPropertyInfo property)
         {
             var (isNullable, _) = TypeScriptGeneratorHelpers.ProcessNullable(property, property.PropertyType, typeGenerator.Options.NullabilityMode);
 

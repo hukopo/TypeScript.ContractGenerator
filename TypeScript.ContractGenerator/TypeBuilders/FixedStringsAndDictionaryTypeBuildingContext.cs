@@ -2,12 +2,13 @@ using System;
 using System.Linq;
 
 using SkbKontur.TypeScript.ContractGenerator.CodeDom;
+using SkbKontur.TypeScript.ContractGenerator.Types;
 
 namespace SkbKontur.TypeScript.ContractGenerator.TypeBuilders
 {
     public class FixedStringsAndDictionaryTypeBuildingContext : TypeBuildingContext
     {
-        public FixedStringsAndDictionaryTypeBuildingContext(TypeScriptUnit unit, Type type)
+        public FixedStringsAndDictionaryTypeBuildingContext(TypeScriptUnit unit, ITypeInfo type)
             : base(unit, type)
         {
         }

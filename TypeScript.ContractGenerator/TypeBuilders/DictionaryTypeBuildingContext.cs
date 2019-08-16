@@ -2,20 +2,21 @@ using System;
 using System.Collections.Generic;
 
 using SkbKontur.TypeScript.ContractGenerator.CodeDom;
+using SkbKontur.TypeScript.ContractGenerator.Types;
 
 namespace SkbKontur.TypeScript.ContractGenerator.TypeBuilders
 {
     public class DictionaryTypeBuildingContext : ITypeBuildingContext
     {
-        public DictionaryTypeBuildingContext(Type dictionaryType)
+        public DictionaryTypeBuildingContext(ITypeInfo dictionaryType)
         {
             keyType = dictionaryType.GetGenericArguments()[0];
             valueType = dictionaryType.GetGenericArguments()[1];
         }
 
-        public static bool Accept(Type type)
+        public static bool Accept(ITypeInfo type)
         {
-            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>);
+            return type.IsGenericType && type.GetGenericTypeDefinition().Equals(TypeInfo.FromType(typeof(Dictionary<,>)));
         }
 
         public bool IsDefinitionBuilt => true;
@@ -51,7 +52,7 @@ namespace SkbKontur.TypeScript.ContractGenerator.TypeBuilders
                 };
         }
 
-        private readonly Type keyType;
-        private readonly Type valueType;
+        private readonly ITypeInfo keyType;
+        private readonly ITypeInfo valueType;
     }
 }

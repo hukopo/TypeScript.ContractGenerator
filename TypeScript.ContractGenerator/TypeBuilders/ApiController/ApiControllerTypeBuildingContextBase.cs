@@ -7,12 +7,15 @@ using System.Threading.Tasks;
 
 using SkbKontur.TypeScript.ContractGenerator.CodeDom;
 using SkbKontur.TypeScript.ContractGenerator.Extensions;
+using SkbKontur.TypeScript.ContractGenerator.Types;
+
+using TypeInfo = SkbKontur.TypeScript.ContractGenerator.Types.TypeInfo;
 
 namespace SkbKontur.TypeScript.ContractGenerator.TypeBuilders.ApiController
 {
     public abstract class ApiControllerTypeBuildingContextBase : TypeBuildingContext
     {
-        public ApiControllerTypeBuildingContextBase(TypeScriptUnit unit, Type type)
+        public ApiControllerTypeBuildingContextBase(TypeScriptUnit unit, ITypeInfo type)
             : base(unit, type)
         {
         }
@@ -62,7 +65,7 @@ namespace SkbKontur.TypeScript.ContractGenerator.TypeBuilders.ApiController
 
         public override void Initialize(ITypeGenerator typeGenerator)
         {
-            Declaration = GenerateInternalApiController(Unit, Type, (x, y) => typeGenerator.BuildAndImportType(Unit, x, y));
+            Declaration = GenerateInternalApiController(Unit, (Type as TypeInfo).Type, (x, y) => typeGenerator.BuildAndImportType(Unit, x, y));
             base.Initialize(typeGenerator);
         }
 

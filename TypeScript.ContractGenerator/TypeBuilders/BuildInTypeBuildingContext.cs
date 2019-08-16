@@ -2,17 +2,18 @@ using System;
 using System.Collections.Generic;
 
 using SkbKontur.TypeScript.ContractGenerator.CodeDom;
+using SkbKontur.TypeScript.ContractGenerator.Types;
 
 namespace SkbKontur.TypeScript.ContractGenerator.TypeBuilders
 {
     public class BuildInTypeBuildingContext : ITypeBuildingContext
     {
-        public BuildInTypeBuildingContext(Type type)
+        public BuildInTypeBuildingContext(ITypeInfo type)
         {
             this.type = type;
         }
 
-        public static bool Accept(Type type)
+        public static bool Accept(ITypeInfo type)
         {
             return builtinTypes.ContainsKey(type);
         }
@@ -34,29 +35,29 @@ namespace SkbKontur.TypeScript.ContractGenerator.TypeBuilders
         {
         }
 
-        private readonly Type type;
+        private readonly ITypeInfo type;
 
-        private static readonly Dictionary<Type, string> builtinTypes = new Dictionary<Type, string>
+        private static readonly Dictionary<ITypeInfo, string> builtinTypes = new Dictionary<ITypeInfo, string>
             {
-                {typeof(bool), "boolean"},
-                {typeof(int), "number"},
-                {typeof(uint), "number"},
-                {typeof(short), "number"},
-                {typeof(ushort), "number"},
-                {typeof(byte), "number"},
-                {typeof(sbyte), "number"},
-                {typeof(float), "number"},
-                {typeof(double), "number"},
-                {typeof(decimal), "number"},
-                {typeof(DateTime), "(Date | string)"},
-                {typeof(TimeSpan), "(number | string)"},
-                {typeof(string), "string"},
-                {typeof(long), "string"},
-                {typeof(ulong), "string"},
-                {typeof(byte[]), "string"},
-                {typeof(Guid), "string"},
-                {typeof(char), "string"},
-                {typeof(void), "void"}
+                {TypeInfo.FromType<bool>(), "boolean"},
+                {TypeInfo.FromType<int>(), "number"},
+                {TypeInfo.FromType<uint>(), "number"},
+                {TypeInfo.FromType<short>(), "number"},
+                {TypeInfo.FromType<ushort>(), "number"},
+                {TypeInfo.FromType<byte>(), "number"},
+                {TypeInfo.FromType<sbyte>(), "number"},
+                {TypeInfo.FromType<float>(), "number"},
+                {TypeInfo.FromType<double>(), "number"},
+                {TypeInfo.FromType<decimal>(), "number"},
+                {TypeInfo.FromType<DateTime>(), "(Date | string)"},
+                {TypeInfo.FromType<TimeSpan>(), "(number | string)"},
+                {TypeInfo.FromType<string>(), "string"},
+                {TypeInfo.FromType<long>(), "string"},
+                {TypeInfo.FromType<ulong>(), "string"},
+                {TypeInfo.FromType<byte[]>(), "string"},
+                {TypeInfo.FromType<Guid>(), "string"},
+                {TypeInfo.FromType<char>(), "string"},
+                {TypeInfo.FromType(typeof(void)), "void"}
             };
     }
 }

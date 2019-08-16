@@ -1,12 +1,13 @@
 using System;
 
 using SkbKontur.TypeScript.ContractGenerator.CodeDom;
+using SkbKontur.TypeScript.ContractGenerator.Types;
 
 namespace SkbKontur.TypeScript.ContractGenerator.TypeBuilders
 {
     public class RedirectToTypeBuildingContext : ITypeBuildingContext
     {
-        public RedirectToTypeBuildingContext(string typeName, string path, Type type)
+        public RedirectToTypeBuildingContext(string typeName, string path, ITypeInfo type)
         {
             this.typeName = typeName;
             this.path = path;
@@ -30,6 +31,6 @@ namespace SkbKontur.TypeScript.ContractGenerator.TypeBuilders
 
         private readonly string typeName;
         private readonly string path;
-        private readonly Type type;
+        private readonly ITypeInfo type;
     }
 }

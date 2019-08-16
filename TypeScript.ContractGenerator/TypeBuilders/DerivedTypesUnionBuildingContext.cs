@@ -2,12 +2,13 @@ using System;
 using System.Linq;
 
 using SkbKontur.TypeScript.ContractGenerator.CodeDom;
+using SkbKontur.TypeScript.ContractGenerator.Types;
 
 namespace SkbKontur.TypeScript.ContractGenerator.TypeBuilders
 {
     public class DerivedTypesUnionBuildingContext : TypeBuildingContext
     {
-        public DerivedTypesUnionBuildingContext(TypeScriptUnit unit, Type type, bool useAbstractChildren = false)
+        public DerivedTypesUnionBuildingContext(TypeScriptUnit unit, ITypeInfo type, bool useAbstractChildren = false)
             : base(unit, type)
         {
             this.useAbstractChildren = useAbstractChildren;

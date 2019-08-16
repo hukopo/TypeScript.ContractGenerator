@@ -4,6 +4,7 @@ using System.Text;
 
 using SkbKontur.TypeScript.ContractGenerator.CodeDom;
 using SkbKontur.TypeScript.ContractGenerator.Internals;
+using SkbKontur.TypeScript.ContractGenerator.Types;
 
 namespace SkbKontur.TypeScript.ContractGenerator
 {
@@ -15,7 +16,7 @@ namespace SkbKontur.TypeScript.ContractGenerator
 
         public List<TypeScriptStatement> Body { get; } = new List<TypeScriptStatement>();
 
-        public TypeScriptTypeReference AddTypeImport(Type sourceType, TypeScriptTypeDeclaration typeDeclaration, TypeScriptUnit sourceUnit)
+        public TypeScriptTypeReference AddTypeImport(ITypeInfo sourceType, TypeScriptTypeDeclaration typeDeclaration, TypeScriptUnit sourceUnit)
         {
             if (sourceUnit != this && !imports.ContainsKey(sourceType))
             {
@@ -81,7 +82,7 @@ namespace SkbKontur.TypeScript.ContractGenerator
             return result.ToString();
         }
 
-        private readonly Dictionary<Type, TypeScriptImportStatement> imports = new Dictionary<Type, TypeScriptImportStatement>();
+        private readonly Dictionary<ITypeInfo, TypeScriptImportStatement> imports = new Dictionary<ITypeInfo, TypeScriptImportStatement>();
         private readonly Dictionary<ImportedSymbol, TypeScriptImportStatement> symbolImports = new Dictionary<ImportedSymbol, TypeScriptImportStatement>();
     }
 }

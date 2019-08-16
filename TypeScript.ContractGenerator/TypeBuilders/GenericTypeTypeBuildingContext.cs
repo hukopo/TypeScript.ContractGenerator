@@ -3,12 +3,13 @@ using System.Collections.Generic;
 
 using SkbKontur.TypeScript.ContractGenerator.CodeDom;
 using SkbKontur.TypeScript.ContractGenerator.Extensions;
+using SkbKontur.TypeScript.ContractGenerator.Types;
 
 namespace SkbKontur.TypeScript.ContractGenerator.TypeBuilders
 {
     public class GenericTypeTypeBuildingContext : ITypeBuildingContext
     {
-        public GenericTypeTypeBuildingContext(Type type)
+        public GenericTypeTypeBuildingContext(ITypeInfo type)
         {
             this.type = type;
         }
@@ -35,7 +36,7 @@ namespace SkbKontur.TypeScript.ContractGenerator.TypeBuilders
             return new TypeScriptGenericTypeReference(typeReference as TypeScriptTypeReference, arguments.ToArray());
         }
 
-        private readonly Type type;
+        private readonly ITypeInfo type;
     }
 
     public class TypeScriptGenericTypeReference : TypeScriptType

@@ -4,21 +4,22 @@ using System.Linq;
 
 using SkbKontur.TypeScript.ContractGenerator.CodeDom;
 using SkbKontur.TypeScript.ContractGenerator.TypeBuilders;
+using SkbKontur.TypeScript.ContractGenerator.Types;
 
 namespace SkbKontur.TypeScript.ContractGenerator.Tests.CustomTypeGenerators
 {
     public class CollectionTypeBuildingContext : ITypeBuildingContext
     {
-        public CollectionTypeBuildingContext(Type arrayType)
+        public CollectionTypeBuildingContext(ITypeInfo arrayType)
         {
             elementType = arrayType.GetGenericArguments()[0];
         }
 
-        public static bool Accept(Type type)
+        public static bool Accept(ITypeInfo type)
         {
             return type.IsGenericType &&
                    type.GetGenericArguments().Length == 1 &&
-                   type.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(ICollection<>));
+                   type.GetInterfaces().Any(i => i.IsGenericType && i.GetGenericTypeDefinition().Equals(TypeInfo.FromType(typeof(ICollection<>))));
         }
 
         public bool IsDefinitionBuilt => true;
@@ -37,6 +38,6 @@ namespace SkbKontur.TypeScript.ContractGenerator.Tests.CustomTypeGenerators
             return new TypeScriptArrayType(itemType);
         }
 
-        private readonly Type elementType;
+        private readonly ITypeInfo elementType;
     }
 }

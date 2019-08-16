@@ -1,18 +1,18 @@
 using System;
-using System.Reflection;
 
 using JetBrains.Annotations;
 
 using SkbKontur.TypeScript.ContractGenerator.CodeDom;
 using SkbKontur.TypeScript.ContractGenerator.Extensions;
+using SkbKontur.TypeScript.ContractGenerator.Types;
 
 namespace SkbKontur.TypeScript.ContractGenerator
 {
     public static class TypeScriptGeneratorHelpers
     {
-        public static (bool, Type) ProcessNullable(ICustomAttributeProvider attributeContainer, Type type, NullabilityMode nullabilityMode)
+        public static (bool, ITypeInfo) ProcessNullable(IAttributeProvider attributeContainer, ITypeInfo type, NullabilityMode nullabilityMode)
         {
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            if (type.IsGenericType && type.GetGenericTypeDefinition().Equals(TypeInfo.FromType(typeof(Nullable<>))))
             {
                 var underlyingType = type.GetGenericArguments()[0];
                 return (true, underlyingType);
@@ -24,7 +24,7 @@ namespace SkbKontur.TypeScript.ContractGenerator
             return (CanBeNull(attributeContainer, nullabilityMode), type);
         }
 
-        private static bool CanBeNull([NotNull] ICustomAttributeProvider attributeContainer, NullabilityMode nullabilityMode)
+        private static bool CanBeNull([NotNull] IAttributeProvider attributeContainer, NullabilityMode nullabilityMode)
         {
             return nullabilityMode == NullabilityMode.Pessimistic
                        ? !attributeContainer.IsNameDefined(AnnotationsNames.NotNull) && !attributeContainer.IsNameDefined(AnnotationsNames.Required)

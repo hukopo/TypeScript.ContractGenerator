@@ -8,6 +8,7 @@ using NUnit.Framework;
 
 using SkbKontur.TypeScript.ContractGenerator.CodeDom;
 using SkbKontur.TypeScript.ContractGenerator.Internals;
+using SkbKontur.TypeScript.ContractGenerator.Types;
 
 namespace SkbKontur.TypeScript.ContractGenerator.Tests
 {
@@ -32,12 +33,17 @@ namespace SkbKontur.TypeScript.ContractGenerator.Tests
 
         protected string[] GenerateCode(TypeScriptGenerationOptions options, ICustomTypeGenerator customTypeGenerator, Type rootType)
         {
-            var generator = new TypeScriptGenerator(options, customTypeGenerator, new RootTypesProvider(rootType));
+            return GenerateCode(options, customTypeGenerator, new RootTypesProvider(rootType));
+        }
+
+        protected string[] GenerateCode(TypeScriptGenerationOptions options, ICustomTypeGenerator customTypeGenerator, IRootTypesProvider typesProvider)
+        {
+            var generator = new TypeScriptGenerator(options, customTypeGenerator, typesProvider);
             if (JavaScriptTypeChecker == JavaScriptTypeChecker.Flow && options.EnumGenerationMode == EnumGenerationMode.TypeScriptEnum)
                 throw new ArgumentException("Invalid EnumGenerationMode for JavaScriptTypeChecker.Flow");
             return generator.Generate().Select(x => x.GenerateCode(new DefaultCodeGenerationContext(JavaScriptTypeChecker)).Replace("\r\n", "\n")).ToArray();
         }
-
+        
         protected void GenerateFiles(ICustomTypeGenerator customTypeGenerator, string folderName, params Type[] rootTypes)
         {
             var path = $"{TestContext.CurrentContext.TestDirectory}/{folderName}/{JavaScriptTypeChecker}";

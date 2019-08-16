@@ -3,6 +3,7 @@ using FluentAssertions;
 using NUnit.Framework;
 
 using SkbKontur.TypeScript.ContractGenerator.Tests.Types;
+using SkbKontur.TypeScript.ContractGenerator.Types;
 
 namespace SkbKontur.TypeScript.ContractGenerator.Tests
 {

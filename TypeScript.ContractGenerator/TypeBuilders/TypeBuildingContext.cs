@@ -1,12 +1,13 @@
 using System;
 
 using SkbKontur.TypeScript.ContractGenerator.CodeDom;
+using SkbKontur.TypeScript.ContractGenerator.Types;
 
 namespace SkbKontur.TypeScript.ContractGenerator.TypeBuilders
 {
     public class TypeBuildingContext : ITypeBuildingContext
     {
-        protected TypeBuildingContext(TypeScriptUnit unit, Type type)
+        protected TypeBuildingContext(TypeScriptUnit unit, ITypeInfo type)
         {
             Unit = unit;
             Type = type;
@@ -21,7 +22,7 @@ namespace SkbKontur.TypeScript.ContractGenerator.TypeBuilders
 
         protected TypeScriptUnit Unit { get; }
 
-        protected Type Type { get; }
+        protected ITypeInfo Type { get; }
 
         public virtual bool IsDefinitionBuilt => true;
 
